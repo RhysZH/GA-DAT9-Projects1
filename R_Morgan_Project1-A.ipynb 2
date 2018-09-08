@@ -1,0 +1,540 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Rhys Morgan - DAT9 - Project 1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Overall Assumption\n",
+    "I assume that the inputs for all functions strictly adhere to the types that each function is able to process (e.g. in the palindrome function the data type entered is an integer). I haven't made any qualifying statements to verify if the input is processable or not. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Challenge 1: Largest Palindrome\n",
+    "\n",
+    "A palindromic number reads the same both ways. For example, 1234321 is a palindrome. The largest palindrome made from the product of two two-digit numbers is 9009 = 91 × 99. Find the largest palindrome made from the product of two three-digit numbers. Afterward, write a brief explanation walking through your code's logic in markdown."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The largest palindromic product of two 3-digit numbers is 906609 = 913 x 993\n"
+     ]
+    }
+   ],
+   "source": [
+    "def is_palindrome(n):\n",
+    "    # store n as a list of characters, and compare to its reverse. \n",
+    "    pal_n = list(str(n)) \n",
+    "    if pal_n == list(reversed(pal_n)):\n",
+    "        return True\n",
+    "    else:\n",
+    "        return False\n",
+    "    \n",
+    "largest = 0\n",
+    "factor1 = 0\n",
+    "factor2 = 0\n",
+    "for i in range(100, 1000):\n",
+    "    for m in range(100, 1000):     #for all numbers 'i' in range, \n",
+    "        b = i*m                    #multiply each 'i' by every number 'm' in range. \n",
+    "        if is_palindrome(b) == True:\n",
+    "        #store 'b' as 'largest' and store its factors only if 'b' > current 'largest'\n",
+    "            if b > largest:\n",
+    "                largest = b\n",
+    "                fact1 = i\n",
+    "                fact2 = m\n",
+    "\n",
+    "print(\"The largest palindromic product of two 3-digit numbers is {0} = {1} x {2}\".format(largest, fact1, fact2))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 1st Question Comments\n",
+    "\n",
+    "1. Function \"is_palindrome\" determines whether a number 'n' is palindromic by: \n",
+    "\n",
+    "> i. converting the number to a string, then storing each character in that string as an element in a list 'pal_n'.\n",
+    "\n",
+    "> ii. comparing that list to its reverse using the 'reversed' method - if both are equal, 'n' is palindromic and returns True.\n",
+    "\n",
+    "\n",
+    "2. For all 3-digit numbers (100 to 999), each of these is multiplied by every number from 100 to 999 using nested 'for' loops. Each product iterated is stored in variable 'b'. \n",
+    "\n",
+    "\n",
+    "3. Each iterated 'b' value is evaluated to be palindromic (by way of the 'is_palindromic' function). If 'b' is palindromic, it is compared to 'largest', which is initially zero. If 'b' is greater than 'largest', 'largest' assumes the value of b, and whichever numbers produced b (its factors, i and m) are stored in 'factor1' and 'factor2'. \n",
+    "\n",
+    "\n",
+    "4. This carries on throughout the loop, with 'largest' and its factors only being reassigned if 'b' is larger than the previous palindromic number iterated.\n",
+    "\n",
+    "\n",
+    "5. By the end of the loop, 'largest' contains the value of the largest 'b' value, as well as its two factors, which are printed in the final 'print' statement."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<span style=\"color:blue; background-color: #dddddd\">\n",
+    "Comments: very good attempt! Nice and compact codes. \n",
+    "</span>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Challenge 2: Summation of Primes\n",
+    "The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17. Find the sum of all the primes below 2,000. Afterward, write a brief explanation walking through your code's logic in markdown."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The sum of all primes below 2000 is 277050\n"
+     ]
+    }
+   ],
+   "source": [
+    "def is_prime(n):\n",
+    "    # return False if n=1, as '1' will return True otherwise\n",
+    "    if n == 1:\n",
+    "        return False\n",
+    "    else:\n",
+    "        #checks for factors in specified range.\n",
+    "        for i in range(2,int(n**0.5)+1):\n",
+    "            if n%i==0:\n",
+    "                return False\n",
+    "        return True\n",
+    "    \n",
+    "def sum_of_prime(num):\n",
+    "    s = 0\n",
+    "    for m in range(0,num):\n",
+    "        if is_prime(m)== True:\n",
+    "            s = s + m\n",
+    "        else:\n",
+    "            s = s\n",
+    "    print(\"The sum of all primes below\", num, \"is\", s)\n",
+    "\n",
+    "\n",
+    "sum_of_prime(2000)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 2nd Question Comments\n",
+    "\n",
+    "1. First, a function 'is_prime' is defined for determining if a number 'n' is prime (unless n = '1', which is designated not prime immediately). \n",
+    "\n",
+    "> This is done by checking if all integers inclusive of 2 up to the square root of 'n' are factors (in that they divide with 0 remainder). If any are factors, the number is not prime (False). If none of these numbers are factors, it is prime (True). \n",
+    "\n",
+    "\n",
+    "2. We then define another function 'sum_of_prime' which will take a number 'num' and check through all numbers between 1 and 'num' (non-inclusive of num, so 'num+1' is not required), passing each through the 'is_prime' function. \n",
+    "\n",
+    "\n",
+    "3. If a number is prime, it is added to variable 's'. Once loop is finished, the final statement containing 's' is printed, which is our sum.\n",
+    "\n",
+    "\n",
+    "4. To answer the question, 'sum_of_prime' is called with argument '2000'.\n",
+    "\n",
+    "\n",
+    "> NOTES ON \"is_prime()\":\n",
+    "\n",
+    "> i. We start checking factors from '2' because '1' is a universal factor for integers (and would return False for every number if included in the check).\n",
+    "\n",
+    "> ii. We only check up to the square root of 'n' because if any number higher than this is a factor, the number will also have another factor less than the square root.\n",
+    "\n",
+    "> iii. We immediately return false if '1' is passed as an argument, as it would return True otherwise and sum_of_prime would return an incorrect sum. Though '1' meets the criteria for being prime, it is not treated as such due to its violation of the Fundamental Theorem of Arithmetic.\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<span style=\"color:blue; background-color: #dddddd\">\n",
+    "Comments: Yup! You have demonstrated understanding of calling functions within control flow structures and logical comparisons.\n",
+    "</span>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Challenge 3: Multiples of 3 and 5\n",
+    "If we list all of the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6, and 9. The sum of these multiples is 23. Find the sum of all the multiples of 3 and 5 below 1,000. Afterward, write a brief explanation walking through your code's logic in markdown."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The sum of all multiples of three and five below 1000 is 233168\n"
+     ]
+    }
+   ],
+   "source": [
+    "def find_multiples(num):\n",
+    "    total = 0\n",
+    "    #add 'm' to 'total' if it divides by 3 or 5. If not, 'total' remains unchanged\n",
+    "    for m in range(3,num):\n",
+    "        if m%3==0:\n",
+    "            total = total + m\n",
+    "        elif m%5==0:\n",
+    "            total = total + m\n",
+    "        else:\n",
+    "            total = total\n",
+    "        \n",
+    "    print(\"The sum of all multiples of three and five below {0} is {1}\".format(num, total))    \n",
+    "     \n",
+    "find_multiples(1000)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 3rd Question Comments\n",
+    "\n",
+    "1. A function 'find_multiples' is defined with argument 'num'.\n",
+    "\n",
+    "\n",
+    "2. For all numbers from 3 up to 'num' (non-inclusive), add that number to variable 'total' if it divides by 3 or 5 with 0 remainder. After loop is finished,'total' and 'num' are then printed in statement.\n",
+    "\n",
+    "> we start from '3' in 'range' because '3' is the smallest multiple of 3, which makes the function slightly more efficient.\n",
+    "\n",
+    "3. Call the function with argument '1000' to solve the question"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<span style=\"color:blue; background-color: #dddddd\">\n",
+    "Comments: Yup! Correct answer there! Nice and compact codes.\n",
+    "</span>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Challenge 4: String Compressor\n",
+    "Implement a method to perform basic string compression using the counts of repeated characters. (This is called run-length encoding.) For example, the string \"aabcccccaaa\" would become a2b1c5a3. If the “compressed” string would not become smaller than the original string, your method should return the original string. You can assume the string has only uppercase and lowercase letters (a–z). Specify whether your solution is case sensitive or case insensitive and what you would need to change to make it the other. Afterward, write a brief explanation walking through your code's logic in markdown."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "a1b11\n"
+     ]
+    }
+   ],
+   "source": [
+    "def compress_string(letters):\n",
+    "    count = 0\n",
+    "    #convert lower case 'letters' string to list, and assign 1st element to 'compress'.\n",
+    "    letter_list = list(letters.lower())\n",
+    "    compress = [str(letter_list[0])]\n",
+    "    #compare element 'i' to last element in 'compress'. If equal, increase count\n",
+    "    for i in letter_list:\n",
+    "        if i == compress[-1]:\n",
+    "            count += 1\n",
+    "        #append count and 'i' to list if different char is reached \n",
+    "        #also, reset count to 1 to begin count for new char \n",
+    "        else:\n",
+    "            compress.append(str(count))\n",
+    "            compress.append(str(i))\n",
+    "            count = 1\n",
+    "    #once loop has finished, append final count to end of 'compress' list    \n",
+    "    compress.append(str(count))\n",
+    "  \n",
+    "    #print 'compress' or arg depending on 'compress' length\n",
+    "    if len(compress) < len(letters):\n",
+    "        print (''.join(compress))\n",
+    "    else:\n",
+    "        print(letters, \": No point in compressing\")\n",
+    "        \n",
+    "compress_string(\"abbbbbbbbbbb\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 4th Question Comments\n",
+    "\n",
+    "1. A function 'compress_string' is defined with argument 'letters'. A variable 'count' is declared within, of value 0, which will be used to count the number of repeated characters for later.\n",
+    "\n",
+    "\n",
+    "2. two other variables are declared:\n",
+    "\n",
+    "> i. 'letter_list', which stores 'letters' as a list containing each character in 'letters' as an element. all characters are made lowercase before converting to list. This variable could also be a string, though it is easier to add and remove case sensitivity if declared as a list (no need to change variable names in rest of program).\n",
+    "\n",
+    "> ii. 'compress', a list where we will store our compressed string. It initially has only one element, which is the first element in 'letter_list'.\n",
+    "\n",
+    "\n",
+    "3. A loop then iterates through each element 'i' in 'letter_list'. If that element is the same as the last element in 'compress', then 'count' is increased by one. This means that for successive identical characters in 'letters', the count is incremented by 1 for each one.\n",
+    "\n",
+    "\n",
+    "4. Once an element 'i' is detected that is different from the last element in 'compress', the value of 'count' is appended to 'compress'. Once this is done, 'i' is further appended to 'compress' as its latest element.\n",
+    "\n",
+    "\n",
+    "5. 'Count' is then re-set to '1' (as the latest element 'n' serves as the first occurence in a new count )\n",
+    "\n",
+    "\n",
+    "6. Once there are no elements left to iterate through the loop, the latest 'Count' is appended to the end of 'compress'. 'compress' is our completed compressed string.\n",
+    "\n",
+    "7. The length of 'compress' is compared to the length of the original argument 'letters'. If compress is shorter, 'compress' is converted to a string using 'join' and printed. If not, a statement with the original argument 'letters' is printed. \n",
+    "\n",
+    "\n",
+    "> NOTE: This solution is case insensitive, as the string argument is converted to lower case in line 3 as part of the function. Therefore, \"aabcccccaaa\" and \"aAbCCcccaAa\" will both produce the same result, \"a2b1c5a2\". To make the solution case-sensitive, remove \".lower()\" in line 3 when declaring \"letter_list\"."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<span style=\"color:blue; background-color: #dddddd\">\n",
+    "Comments: Nice! You have completed everything that the question asked for. Meticulous and detailed.\n",
+    "</span>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### *BONUS* Challenge: FizzBuzz\n",
+    "Write a program that prints all of the numbers from 1 to 100. For multiples of 3, instead of the number, print \"Fizz;\" for multiples of 5, print \"Buzz.\" For numbers that are multiples of both 3 and 5, print \"FizzBuzz.\" Afterward, write a brief explanation walking through your code's logic in markdown."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1\n",
+      "2\n",
+      "Fizz\n",
+      "4\n",
+      "Buzz\n",
+      "Fizz\n",
+      "7\n",
+      "8\n",
+      "Fizz\n",
+      "Buzz\n",
+      "11\n",
+      "Fizz\n",
+      "13\n",
+      "14\n",
+      "FizzBuzz\n",
+      "16\n",
+      "17\n",
+      "Fizz\n",
+      "19\n",
+      "Buzz\n",
+      "Fizz\n",
+      "22\n",
+      "23\n",
+      "Fizz\n",
+      "Buzz\n",
+      "26\n",
+      "Fizz\n",
+      "28\n",
+      "29\n",
+      "FizzBuzz\n",
+      "31\n",
+      "32\n",
+      "Fizz\n",
+      "34\n",
+      "Buzz\n",
+      "Fizz\n",
+      "37\n",
+      "38\n",
+      "Fizz\n",
+      "Buzz\n",
+      "41\n",
+      "Fizz\n",
+      "43\n",
+      "44\n",
+      "FizzBuzz\n",
+      "46\n",
+      "47\n",
+      "Fizz\n",
+      "49\n",
+      "Buzz\n",
+      "Fizz\n",
+      "52\n",
+      "53\n",
+      "Fizz\n",
+      "Buzz\n",
+      "56\n",
+      "Fizz\n",
+      "58\n",
+      "59\n",
+      "FizzBuzz\n",
+      "61\n",
+      "62\n",
+      "Fizz\n",
+      "64\n",
+      "Buzz\n",
+      "Fizz\n",
+      "67\n",
+      "68\n",
+      "Fizz\n",
+      "Buzz\n",
+      "71\n",
+      "Fizz\n",
+      "73\n",
+      "74\n",
+      "FizzBuzz\n",
+      "76\n",
+      "77\n",
+      "Fizz\n",
+      "79\n",
+      "Buzz\n",
+      "Fizz\n",
+      "82\n",
+      "83\n",
+      "Fizz\n",
+      "Buzz\n",
+      "86\n",
+      "Fizz\n",
+      "88\n",
+      "89\n",
+      "FizzBuzz\n",
+      "91\n",
+      "92\n",
+      "Fizz\n",
+      "94\n",
+      "Buzz\n",
+      "Fizz\n",
+      "97\n",
+      "98\n",
+      "Fizz\n",
+      "Buzz\n"
+     ]
+    }
+   ],
+   "source": [
+    "def fizzbuzz(n):\n",
+    "    #for all numbers 'i' in range, if i fulfils conditions, then print corresponding word. \n",
+    "    #if 'i' fulfils no conditions, print 'i' itself\n",
+    "    for i in range(1,n+1):\n",
+    "        if i%3 == 0 and i%5 == 0:\n",
+    "            print (\"FizzBuzz\")\n",
+    "        elif i%3 == 0: \n",
+    "            print (\"Fizz\")\n",
+    "        elif i%5 == 0: \n",
+    "            print (\"Buzz\")\n",
+    "        else:\n",
+    "            print (i)\n",
+    "fizzbuzz(100)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Bonus Question Comments\n",
+    "\n",
+    "1. A function 'fizzbuzz' is defined with argument 'num'.\n",
+    "\n",
+    "\n",
+    "2. Function iterates through all numbers from 1 to 'num' inclusive, and checks if it divides by 3 and 5 with 0 remainder. If so, it prints 'FizzBuzz'. \n",
+    "\n",
+    "\n",
+    "3. If a number does not divide by both 3 and 5, it checks if it divides by 3. If so, it prints 'Fizz'\n",
+    "\n",
+    "\n",
+    "4. Else, if a number does not divide by 3, it checks if it divides by 5. If so, it prints 'Buzz'\n",
+    "\n",
+    "\n",
+    "5. If none of these conditions are met, the number itself is printed. The end result of the function is a printed list of all numbers up to 'num', with the aforementioned replacements in steps 2-4.\n",
+    "\n",
+    "\n",
+    "6. To answer the question, 'fizzbuzz' is called with argument of 100.\n",
+    "\n",
+    "> NOTE: We check if 'i' is a multiple of both 3 and 5 BEFORE checking for 3 and 5 individually. This is because qualifying 'fizzbuzz' numbers will also fulfil the conditions to print both 'fizz' and 'buzz' if we check for these individual multiples first. This is undesirable, as we only want one printed output per number."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<span style=\"color:blue; background-color: #dddddd\">\n",
+    "Comments: Yup! Nice and compact codes. <br>\n",
+    "Overall comments: Very well done. You have shown excellent understanding of fundamental Python as well as your ability to apply that understanding to solve these questions. Keep up the good work!\n",
+    "</span>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
